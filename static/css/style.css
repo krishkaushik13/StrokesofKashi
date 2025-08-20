@@ -93,7 +93,8 @@ h3 {
 .hero-section {
     height: 100vh;
     /* NEW: Add your background image URL here */
-    background-image: url('https://images.unsplash.com/photo-1531826275211-8a5857724344?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2061&q=80');
+    background-image: url('
+        logo..jpg');
     background-size: cover; /* CHANGED: Cover ensures the image fills the screen */
     background-position: center center;
     background-repeat: no-repeat;
