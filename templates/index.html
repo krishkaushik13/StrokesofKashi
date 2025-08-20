@@ -1,0 +1,60 @@
+
+
+{% extends "layout.html" %}
+
+{% block title %}Strokes of Kashi by Priyam Pandey{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <h1 class="artist-name">Strokes <span class="of-highlight">of</span> Kashi</h1>
+        <span class="separator-line"></span>
+        <p class="tagline">Priyam Pandey</p>
+    </div>
+</section>
+
+<main>
+    <section id="featured-categories" class="featured-categories-section">
+        <div class="container">
+            <h2>Featured Collections</h2>
+            <div class="category-grid">
+                {% for category in featured_categories %}
+                <a href="{{ url_for('category_page', category_name=category.name) }}" class="category-item" data-aos="fade-up">
+                    <img src="{{ category.featured_image_url }}" alt="Collection of {{ category.name }} paintings">
+                    <div class="category-name">{{ category.name }}</div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <div class="container">
+            <h2>Full Gallery</h2>
+            <div class="gallery-grid">
+                {% for painting in paintings %}
+                <a href="{{ url_for('product', product_id=painting.id) }}" class="gallery-item" data-aos="fade-up">
+                    <img src="{{ painting.image }}" alt="{{ painting.title }}">
+                    <div class="overlay"><div class="overlay-content"><h3>{{ painting.title }}</h3></div></div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container" data-aos="fade-up">
+            <h2>About The Artist</h2>
+            <p>This is where you can write a biography about the artist...</p>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+         <div class="container" data-aos="fade-up">
+            <h2>Contact</h2>
+            <p>For commissions, inquiries, or collaborations, please reach out...</p>
+            <a href="mailto:email@example.com" class="email-link">Get in Touch</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

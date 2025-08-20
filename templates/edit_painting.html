@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit {{ painting.title }} - Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg-dark: #1a1c23;
+            --color-panel: #252830;
+            --color-border: #3c414d;
+            --color-text-light: #e1e1e1;
+            --color-primary: #8a63d2;
+            --font-main: 'Lato', sans-serif;
+        }
+        body { background-color: var(--color-bg-dark); color: var(--color-text-light); font-family: var(--font-main); margin: 0; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .panel { background-color: var(--color-panel); border: 1px solid var(--color-border); border-radius: 8px; padding: 30px; }
+        h1 { font-size: 2rem; margin: 0 0 20px; border-bottom: 1px solid var(--color-border); padding-bottom: 15px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; font-size: 1rem; background-color: var(--color-bg-dark); border: 1px solid var(--color-border); border-radius: 5px; color: var(--color-text-light); box-sizing: border-box; }
+        .button-group { display: flex; gap: 15px; margin-top: 20px; }
+        .submit-button, .cancel-link { width: 100%; text-align: center; display: block; padding: 15px; border-radius: 5px; font-size: 1rem; text-decoration: none; transition: background-color 0.2s ease; }
+        .submit-button { background-color: var(--color-primary); color: #fff; border: none; cursor: pointer; }
+        .submit-button:hover { background-color: #6c4aaa; }
+        .cancel-link { background-color: #3c414d; color: var(--color-text-light); }
+        .cancel-link:hover { background-color: #4a505e; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="panel">
+            <h1>Edit Painting: {{ painting.title }}</h1>
+            <form action="{{ url_for('edit_painting', painting_id=painting.id) }}" method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" value="{{ painting.title }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea name="description" rows="5" required>{{ painting.description }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" name="price" value="{{ painting.price }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="image_url">Image URL</label>
+                    <input type="text" name="image_url" value="{{ painting.image_url }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select name="category" required>
+                        {% for cat in categories %}
+                            <option value="{{ cat.name }}" {% if cat.id == painting.category_id %}selected{% endif %}>
+                                {{ cat.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="submit-button">Save Changes</button>
+                    <a href="{{ url_for('admin') }}" class="cancel-link">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

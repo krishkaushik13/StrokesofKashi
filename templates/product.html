@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ painting.title }} - Strokes of Kashi</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Global Styles & Variables (from your main stylesheet) --- */
+        :root {
+            --color-bg: #fbfaf5;
+            --color-text: #5d4037;
+            --color-accent-green: #a3b899;
+            --color-accent-gold: #c5a47e;
+            --color-light: #ffffff;
+            --color-border: #e8e5d9;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: var(--font-body);
+            font-weight: 400;
+            margin: 0;
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* --- Header & Footer (for consistency) --- */
+        .site-header {
+            padding: 15px 0;
+            background-color: rgba(251, 250, 245, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: right;
+        }
+        .main-nav a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-left: 35px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: var(--color-accent-gold);
+        }
+        .site-footer {
+            text-align: center;
+            padding: 40px 0;
+            font-size: 0.8rem;
+            color: var(--color-accent-green);
+            background-color: #f7f5ef;
+        }
+
+        /* --- Product Page Specific Styles --- */
+        .product-section {
+            padding: 120px 20px 60px;
+        }
+        
+        .product-container {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        .product-image {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: auto;
+            border: 1px solid var(--color-border);
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-category {
+            font-size: 0.9rem;
+            color: var(--color-accent-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+        
+        .product-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--color-text);
+            margin: 10px 0;
+        }
+
+        .product-price {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--color-accent-gold);
+            margin: 20px 0;
+        }
+
+        .product-description {
+            font-size: 1rem;
+            color: #7d5a50;
+            margin-bottom: 30px;
+        }
+        
+        .purchase-inquiry {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+        }
+        
+        .purchase-inquiry h3 {
+            font-family: var(--font-heading);
+            margin: 0 0 10px;
+        }
+        
+        .purchase-inquiry p {
+            margin: 0 0 15px;
+            font-size: 0.9rem;
+        }
+
+        .email-link {
+            display: inline-block;
+            color: var(--color-text);
+            background-color: transparent;
+            text-decoration: none;
+            border: 1px solid var(--color-accent-gold);
+            padding: 12px 30px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-size: 0.9rem;
+            border-radius: 50px;
+        }
+
+        .email-link:hover {
+            background-color: var(--color-accent-gold);
+            color: var(--color-light);
+        }
+        
+        @media (max-width: 768px) {
+            .product-container { flex-direction: column; }
+            .product-image { max-width: 100%; }
+            /* Add this to the bottom of the <style> tag */
+@media (max-width: 768px) {
+    .product-section {
+        padding: 100px 20px 40px; /* Adjust padding */
+    }
+    .product-container {
+        flex-direction: column; /* Stack image and details */
+        gap: 30px;
+    }
+    .product-image {
+        max-width: 100%;
+    }
+    .product-title {
+        font-size: 2.5rem;
+    }
+    .product-price {
+        font-size: 1.8rem;
+    }
+}
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <nav class="main-nav">
+                <a href="{{ url_for('home') }}">Home</a>
+                <a href="{{ url_for('home') }}#gallery">Gallery</a>
+                <a href="{{ url_for('home') }}#about">About</a>
+                <a href="{{ url_for('home') }}#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="product-section">
+            <div class="container product-container">
+
+                <div class="product-image">
+                    <img src="{{ painting.image_url }}" alt="{{ painting.title }}">
+                </div>
+
+                <div class="product-details">
+                    <p class="product-category">{{ painting.category.name }}</p>
+                    <h1 class="product-title">{{ painting.title }}</h1>
+                    <p class="product-price">${{ painting.price }}</p>
+                    <p class="product-description">
+                        {{ painting.description }}
+                    </p>
+                    
+                    <div class="purchase-inquiry">
+                        <h3>Interested in this painting?</h3>
+                        <p>To purchase, please email the artist and include the title of the painting in the subject line.</p>
+                        <a href="mailto:artist-email@example.com?subject=Purchase Inquiry for '{{ painting.title }}'" class="email-link">
+                            Inquire via Email
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2025 Strokes of Kashi by Priyam Pandey. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
