@@ -94,7 +94,7 @@ h3 {
     height: 100vh;
     /* NEW: Add your background image URL here */
     background-image: url('
-        logo..jpg');
+        https://res.cloudinary.com/dasqxu3lg/image/upload/v1755674793/2_ypbut7.jpg');
     background-size: cover; /* CHANGED: Cover ensures the image fills the screen */
     background-position: center center;
     background-repeat: no-repeat;
