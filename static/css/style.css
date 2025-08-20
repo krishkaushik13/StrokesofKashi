@@ -1,24 +1,24 @@
 /* --- Global Styles & Variables --- */
 :root {
-    /* Dark Theme Palette */
-    --color-bg-dark: #1a1c23; /* A deep, modern dark blue/grey */
-    --color-panel: #252830; /* A slightly lighter panel color for sections */
-    --color-text: #e1e1e1; /* Off-white for main text, easy on the eyes */
-    --color-text-muted: #8c92a3; /* A muted grey for less important text */
-    --color-accent-gold: #c5a47e; /* Your original muted gold for highlights */
-    --color-accent-red: #c0392b; /* A professional red for special highlights */
+    /* Dark Theme Palette (Unchanged) */
+    --color-bg-dark: #1a1c23; 
+    --color-panel: #252830; 
+    --color-text: #e1e1e1; 
+    --color-text-muted: #8c92a3; 
+    --color-accent-gold: #c5a47e; 
+    --color-accent-red: #c0392b; 
     --color-light: #ffffff;
-    --color-border: #3c414d; /* A subtle border color for the dark theme */
+    --color-border: #3c414d; 
 
-    /* Font Palette */
+    /* Font Palette (Unchanged) */
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Lato', sans-serif;
-    --font-special: 'Ballet', cursive; /* The calligraphy font */
+    --font-special: 'Ballet', cursive; 
 }
 
 body {
-    background-color: var(--color-bg-dark); /* CHANGED: Set the main background to dark */
-    color: var(--color-text); /* CHANGED: Set the default text color to light */
+    background-color: var(--color-bg-dark); 
+    color: var(--color-text); 
     font-family: var(--font-body);
     font-weight: 400;
     margin: 0;
@@ -47,16 +47,15 @@ h3 {
     left: 0;
     z-index: 1000;
     padding: 20px 0;
-    /* CHANGED: Initial background is now transparent */
     background: transparent;
     transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
 }
 
 .site-header.scrolled {
-    background-color: rgba(26, 28, 35, 0.85); /* Dark background on scroll */
+    background-color: rgba(26, 28, 35, 0.85); 
     backdrop-filter: blur(10px);
     padding: 15px 0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* A more visible shadow on dark bg */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .header-container {
@@ -78,7 +77,7 @@ h3 {
 }
 
 .main-nav a {
-    color: var(--color-light); /* CHANGED: Brighter color for visibility */
+    color: var(--color-light); 
     text-decoration: none;
     font-size: 1.2rem;
     font-weight: 400;
@@ -93,9 +92,9 @@ h3 {
 /* --- Hero Section --- */
 .hero-section {
     height: 100vh;
-    background-color: var(--color-bg-dark); /* Solid dark background color */
-    background-image: url('logo4..jpg');
-    background-size: contain;
+    /* NEW: Add your background image URL here */
+    background-image: url('https://images.unsplash.com/photo-1531826275211-8a5857724344?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2061&q=80');
+    background-size: cover; /* CHANGED: Cover ensures the image fills the screen */
     background-position: center center;
     background-repeat: no-repeat;
     display: flex;
@@ -112,13 +111,13 @@ h3 {
     left: 0;
     width: 100%;
     height: 100%;
-    /* CHANGED: Dark overlay to blend with the theme */
-    background-color: rgba(26, 28, 35, 0.7);
+    /* CHANGED: This dark overlay controls the background image's opacity */
+    background-color: rgba(26, 28, 35, 0.8); /* 80% opacity */
 }
 
 .hero-content {
     animation: fadeIn 2.5s ease-in-out;
-    position: relative;
+    position: relative; /* This keeps the text on top of the overlay */
 }
 
 @keyframes fadeIn {
@@ -136,13 +135,13 @@ h3 {
     font-size: 8rem;
     line-height: 1.2;
     margin: 0;
-    color: var(--color-light); /* CHANGED: Use a variable */
+    color: var(--color-light);
     font-weight: 700;
 }
 
 .of-highlight {
-    font-family: var(--font-special); /* Use the special font variable */
-    color: var(--color-accent-red); /* Use the red accent variable */
+    font-family: var(--font-special); 
+    color: var(--color-accent-red); 
     font-weight: 500;
 }
 
@@ -157,7 +156,7 @@ h3 {
 .hero-content .tagline {
     font-size: 1.2rem;
     margin: 0;
-    color: var(--color-text); /* CHANGED: Use a variable */
+    color: var(--color-text); 
     font-family: var(--font-body);
     font-weight: 300;
     letter-spacing: 2px;
@@ -167,11 +166,9 @@ h3 {
 /* --- Main Content Sections --- */
 section {
     padding: 100px 0;
-    /* NEW: Add a background color to all sections except the featured one */
     background-color: var(--color-panel);
 }
 
-/* NEW: Give the featured categories section a different background to stand out */
 #featured-categories {
     background-color: var(--color-bg-dark);
 }
@@ -180,13 +177,15 @@ section h2 {
     text-align: center;
     font-size: 2.8rem;
     margin-bottom: 60px;
-    color: var(--color-light); /* CHANGED: Brighter color for headings */
+    color: var(--color-light); 
 }
 
 /* --- Gallery & Category Grids --- */
+/* NEW: Adjusted picture sizes and layout */
 .gallery-grid, .category-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* This creates a consistent 3-column layout on desktop */
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
@@ -194,13 +193,16 @@ section h2 {
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    border: 1px solid var(--color-border); /* Use the dark theme border color */
-    border-radius: 4px; /* NEW: Slightly rounded corners for a modern look */
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    /* This forces all gallery items into a square shape for a clean look */
+    aspect-ratio: 1 / 1;
 }
 
+/* FIXED: This ensures images are visible on all screen sizes */
 .gallery-item img, .category-item img {
     width: 100%;
-    height: 100%;
+    height: 100%; /* This now works correctly with aspect-ratio set on the parent */
     display: block;
     object-fit: cover;
     transition: transform 0.5s ease;
@@ -216,12 +218,12 @@ section h2 {
     left: 0;
     width: 100%;
     height: 100%;
-    /* CHANGED: Darker overlay for better contrast */
     background: rgba(26, 28, 35, 0.85);
     color: var(--color-light);
     opacity: 0;
     transition: opacity 0.4s ease;
     display: flex;
+    flex-direction: column; /* Allows content to be centered easily */
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -231,13 +233,22 @@ section h2 {
     opacity: 1;
 }
 
-.overlay-content h3, .category-name {
+/* NEW: Enhanced "toggling" animation on hover */
+.overlay-content h3 {
     font-size: 1.5rem;
     font-family: var(--font-heading);
     color: var(--color-light);
+    opacity: 0; /* Hidden by default */
+    transform: translateY(15px); /* Start slightly lower */
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transition-delay: 0.1s; /* Slight delay for a smoother effect */
 }
 
-/* NEW: Specific styling for category names to be visible without hover */
+.gallery-item:hover .overlay-content h3 {
+    opacity: 1; /* Fade in on hover */
+    transform: translateY(0); /* Slide up on hover */
+}
+
 .category-name {
     position: absolute;
     bottom: 20px;
@@ -246,8 +257,9 @@ section h2 {
     padding: 5px 15px;
     border-radius: 4px;
     font-size: 1.3rem;
+    font-family: var(--font-heading);
+    color: var(--color-light);
 }
-
 
 /* --- About & Contact --- */
 .about-section p,
@@ -256,7 +268,6 @@ section h2 {
     margin: 0 auto 20px;
     text-align: center;
     font-size: 1.1rem;
-    /* CHANGED: Use the muted text color for paragraphs */
     color: var(--color-text-muted);
 }
 
@@ -278,7 +289,7 @@ section h2 {
 
 .email-link:hover {
     background-color: var(--color-accent-gold);
-    color: var(--color-bg-dark); /* CHANGED: Dark text on gold background */
+    color: var(--color-bg-dark);
 }
 
 /* --- Footer --- */
@@ -286,44 +297,39 @@ section h2 {
     text-align: center;
     padding: 40px 0;
     font-size: 0.8rem;
-    color: var(--color-text-muted); /* CHANGED: Use muted text color */
-    background-color: var(--color-bg-dark); /* CHANGED: Match the main background */
+    color: var(--color-text-muted); 
+    background-color: var(--color-bg-dark); 
 }
 
 /* --- Responsive Design --- */
-/* --- Responsive Design --- */
 @media (max-width: 768px) {
-    /* --- General Layout & Typography --- */
     section {
-        padding: 60px 20px; /* Reduce vertical spacing on sections */
+        padding: 60px 20px;
     }
     section h2 {
-        font-size: 2.2rem; /* Make section titles smaller */
+        font-size: 2.2rem;
     }
 
-    /* --- Header --- */
     .header-container {
-        justify-content: center; /* Center nav on mobile */
+        justify-content: center;
     }
     .main-nav ul {
-        gap: 25px; /* Reduce gap between nav items */
+        gap: 25px;
     }
     .main-nav a {
-        font-size: 1rem; /* Slightly smaller nav text */
+        font-size: 1rem;
     }
 
-    /* --- Hero Section --- */
     .hero-content .artist-name {
-        font-size: 3.5rem; /* Drastically reduce hero font size */
+        font-size: 3.5rem;
     }
     .separator-line {
-        width: 80%; /* Make separator responsive */
+        width: 80%;
     }
 
-    /* --- Gallery & Category Grids --- */
     .gallery-grid, .category-grid {
-        /* This is the key fix for your gallery area */
-        grid-template-columns: 1fr; /* Stack grid items in a single column */
+        /* This stacks the gallery items into a single column on mobile */
+        grid-template-columns: 1fr;
         gap: 20px;
     }
 }
