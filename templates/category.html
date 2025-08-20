@@ -157,7 +157,7 @@
                 <div class="gallery-grid">
                     {% for painting in paintings %}
                     <a href="{{ url_for('product', product_id=painting.id) }}" class="gallery-item">
-                        <img src="{{ painting.image }}" alt="{{ painting.title }}">
+                        <img src="{{ painting.image_url }}" alt="{{ painting.title }}">
                         <div class="overlay">
                             <div class="overlay-content">
                                 <h3>{{ painting.title }}</h3>
