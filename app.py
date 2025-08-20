@@ -218,3 +218,20 @@ def toggle_sold(painting_id):
     painting.is_sold = not painting.is_sold
     db.session.commit()
     return redirect(url_for('admin'))
+
+
+@app.route('/admin/delete_category/<int:category_id>', methods=['POST'])
+def delete_category(category_id):
+    if not is_admin():
+        return redirect(url_for('login'))
+
+    # Find the category in the database by its ID
+    category_to_delete = Category.query.get_or_404(category_id)
+    
+    # Thanks to the 'cascade' setting in our database model,
+    # SQLAlchemy will automatically delete all paintings associated with this category.
+    db.session.delete(category_to_delete)
+    db.session.commit()
+    
+    flash(f"Category '{category_to_delete.name}' and all its paintings have been deleted.", "success")
+    return redirect(url_for('admin'))
