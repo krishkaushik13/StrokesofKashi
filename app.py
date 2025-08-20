@@ -5,14 +5,16 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # --- App & Database Configuration ---
 
-# Get the base directory of the project
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
-# A secret key is required for session management and flash messages
 app.config['SECRET_KEY'] = 'your_super_secret_key_change_this' 
-# Configure the database URI. This will create a file named 'portfolio.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'portfolio.db')
+# Configure for Render (PostgreSQL) and a fallback for local (SQLite)
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'portfolio.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -48,7 +50,7 @@ class Painting(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
 
 
-# --- Custom Flask CLI Commands to set up the database and admin ---
+# --- Custom Flask CLI Commands ---
 
 @app.cli.command("init-db")
 def init_db_command():
@@ -120,7 +122,6 @@ def logout():
 # --- Admin-Only Routes ---
 
 def is_admin():
-    """Helper function to check if a user is logged in."""
     return 'user_id' in session
 
 @app.route('/admin')
@@ -136,22 +137,17 @@ def admin():
 def add_painting():
     if not is_admin():
         return redirect(url_for('login'))
-
+    # ... (code for adding painting)
     title = request.form.get('title')
     description = request.form.get('description')
     price = request.form.get('price')
     image_url = request.form.get('image_url')
     category_name = request.form.get('category')
-    
     category = Category.query.filter_by(name=category_name).first()
-    
     if category:
         new_painting = Painting(
-            title=title, 
-            description=description, 
-            price=float(price), 
-            image_url=image_url, 
-            category_id=category.id
+            title=title, description=description, price=float(price), 
+            image_url=image_url, category_id=category.id
         )
         db.session.add(new_painting)
         db.session.commit()
@@ -161,15 +157,12 @@ def add_painting():
 def add_category():
     if not is_admin():
         return redirect(url_for('login'))
-
+    # ... (code for adding category)
     name = request.form.get('name')
     featured_image_url = request.form.get('featured_image_url')
     is_featured = 'is_featured' in request.form
-
     new_category = Category(
-        name=name, 
-        featured_image_url=featured_image_url,
-        is_featured=is_featured
+        name=name, featured_image_url=featured_image_url, is_featured=is_featured
     )
     db.session.add(new_category)
     db.session.commit()
@@ -179,11 +172,9 @@ def add_category():
 def edit_painting(painting_id):
     if not is_admin():
         return redirect(url_for('login'))
-
+    # ... (code for editing painting)
     painting = Painting.query.get_or_404(painting_id)
-    
     if request.method == 'POST':
-        # Update painting details from the form
         painting.title = request.form.get('title')
         painting.description = request.form.get('description')
         painting.price = float(request.form.get('price'))
@@ -194,8 +185,6 @@ def edit_painting(painting_id):
             painting.category_id = category.id
         db.session.commit()
         return redirect(url_for('admin'))
-
-    # For a GET request, show the edit form
     categories = Category.query.all()
     return render_template('edit_painting.html', painting=painting, categories=categories)
 
@@ -203,7 +192,6 @@ def edit_painting(painting_id):
 def delete_painting(painting_id):
     if not is_admin():
         return redirect(url_for('login'))
-        
     painting = Painting.query.get_or_404(painting_id)
     db.session.delete(painting)
     db.session.commit()
@@ -213,27 +201,16 @@ def delete_painting(painting_id):
 def toggle_sold(painting_id):
     if not is_admin():
         return redirect(url_for('login'))
-
     painting = Painting.query.get_or_404(painting_id)
     painting.is_sold = not painting.is_sold
     db.session.commit()
     return redirect(url_for('admin'))
 
-
-@app.route('/admin/delete_category/<int:category_id>', methods=['POST'])
-def delete_category(category_id):
-    if not is_admin():
-        return redirect(url_for('login'))
-
-    # Find the category in the database by its ID
-    category_to_delete = Category.query.get_or_404(category_id)
-    @app.route('/admin/edit_category/<int:category_id>', methods=['GET', 'POST'])
+@app.route('/admin/edit_category/<int:category_id>', methods=['GET', 'POST'])
 def edit_category(category_id):
     if not is_admin():
         return redirect(url_for('login'))
-
     category = Category.query.get_or_404(category_id)
-    
     if request.method == 'POST':
         category.name = request.form.get('name')
         category.featured_image_url = request.form.get('featured_image_url')
@@ -241,13 +218,14 @@ def edit_category(category_id):
         db.session.commit()
         flash(f"Category '{category.name}' has been updated.", "success")
         return redirect(url_for('admin'))
-
     return render_template('edit_category.html', category=category)
-    
-    # Thanks to the 'cascade' setting in our database model,
-    # SQLAlchemy will automatically delete all paintings associated with this category.
+
+@app.route('/admin/delete_category/<int:category_id>', methods=['POST'])
+def delete_category(category_id):
+    if not is_admin():
+        return redirect(url_for('login'))
+    category_to_delete = Category.query.get_or_404(category_id)
     db.session.delete(category_to_delete)
     db.session.commit()
-    
     flash(f"Category '{category_to_delete.name}' and all its paintings have been deleted.", "success")
     return redirect(url_for('admin'))
