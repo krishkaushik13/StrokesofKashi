@@ -227,6 +227,22 @@ def delete_category(category_id):
 
     # Find the category in the database by its ID
     category_to_delete = Category.query.get_or_404(category_id)
+    @app.route('/admin/edit_category/<int:category_id>', methods=['GET', 'POST'])
+def edit_category(category_id):
+    if not is_admin():
+        return redirect(url_for('login'))
+
+    category = Category.query.get_or_404(category_id)
+    
+    if request.method == 'POST':
+        category.name = request.form.get('name')
+        category.featured_image_url = request.form.get('featured_image_url')
+        category.is_featured = 'is_featured' in request.form
+        db.session.commit()
+        flash(f"Category '{category.name}' has been updated.", "success")
+        return redirect(url_for('admin'))
+
+    return render_template('edit_category.html', category=category)
     
     # Thanks to the 'cascade' setting in our database model,
     # SQLAlchemy will automatically delete all paintings associated with this category.
