@@ -130,7 +130,27 @@
                             <label for="is_featured" style="margin: 0;">Feature on homepage?</label>
                         </div>
                         <button type="submit" class="submit-button">Add Category</button>
+
+                        
                     </form>
+                    <hr style="border-color: var(--color-border); margin: 40px 0;">
+<div class="manage-categories">
+    <h2>Manage Categories</h2>
+    <ul class="item-list">
+        {% for cat in categories %}
+        <li class="item">
+            <div class="item-details">
+                <strong>{{ cat.name }}</strong>
+            </div>
+            <div class="item-actions">
+                <form action="{{ url_for('delete_category', category_id=cat.id) }}" method="post" onsubmit="return confirm('Are you sure? Deleting this will also delete all paintings in this category.');">
+                    <button type="submit" class="action-btn delete">Delete</button>
+                </form>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
                 </div>
             </div>
         </div>
